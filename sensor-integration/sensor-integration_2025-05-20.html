@@ -1,0 +1,21 @@
+---
+title: Noise Filtering and Signal Smoothing
+date: 2025-05-20
+topic: sensor-integration
+category: documentation
+type: normal
+width: 1.5
+sidecars:
+  - filename: sensor-integration_2025-05-20--110000.jpg
+    kind: picture
+    description: Noise field visualization of raw sensor data before filtering
+---
+<p>Spent the last two weeks developing the signal processing pipeline. Raw sensor data is far too noisy to drive lighting directly — the result is jittery, nervous light that feels more like a malfunction than an artistic response.</p>
+<p>The solution involves three stages:</p>
+<ol>
+  <li><strong><a href="https://en.wikipedia.org/wiki/Median_filter">Median filtering</a></strong> — a rolling window of 5 samples removes outlier spikes without introducing lag.</li>
+  <li><strong><a href="https://en.wikipedia.org/wiki/Exponential_smoothing">Exponential moving average</a></strong> — smooths the filtered signal with a configurable time constant. For temperature, a 30-second time constant works well. For proximity, 200 milliseconds is sufficient.</li>
+  <li><strong>Threshold gating</strong> — small fluctuations below a configurable threshold are suppressed entirely, so the light only responds to meaningful changes.</li>
+</ol>
+<p>The key insight is that different environmental parameters require very different temporal treatment. Temperature changes slowly and should drive slow, gradual light transitions. Sound is fast and transient but should be averaged over several seconds to capture the ambient character rather than individual sounds. Proximity sits in between.</p>
+<p>I wrote a small Python library (<code>envsmooth</code>) on the Crestboard that handles all of this. Each sensor channel gets its own filter chain with independently configurable parameters.</p>

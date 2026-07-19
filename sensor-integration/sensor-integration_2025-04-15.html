@@ -1,0 +1,26 @@
+---
+title: First Sensor Array Prototype
+date: 2025-04-15
+topic: sensor-integration
+category: experiment
+type: normal
+width: 2
+sidecars:
+  - filename: sensor-integration_2025-04-15--140000.jpg
+    kind: picture
+    description: Abstract visualization of concentric sensor data rings
+---
+<p>Built the first prototype sensor board today. Using a Luvon Micro 33 as the main controller with the following sensors:</p>
+<ul>
+  <li><a href="https://www.bosch-sensortec.com/products/environmental-sensors/humidity-sensors-bme280/">BME280</a> — temperature, humidity, barometric pressure</li>
+  <li><a href="https://invensense.tdk.com/products/digital/inmp441/">INMP441</a> — MEMS microphone for ambient sound level</li>
+  <li><a href="https://www.st.com/en/imaging-and-photonics-solutions/vl53l0x.html">VL53L0X</a> — time-of-flight distance sensor for proximity detection</li>
+  <li><a href="https://www.vishay.com/en/product/84286/VEML7700">VEML7700</a> — ambient light level</li>
+</ul>
+<p>All sensors are communicating over I2C, which keeps the wiring simple. The Micro polls all four sensors at 30 Hz and sends the data over serial to a Crestboard that handles the mapping logic.</p>
+<p>First impressions:</p>
+<ul>
+  <li>The BME280 is extremely stable — temperature readings vary by less than 0.1°C over hours.</li>
+  <li>The INMP441 MEMS microphone picks up everything, including the ventilation system. Need significant filtering.</li>
+  <li>The ToF sensor has a useful range of about 1.5 meters, which is roughly the distance at which visitors approach a pedestal-mounted sculpture.</li>
+</ul>

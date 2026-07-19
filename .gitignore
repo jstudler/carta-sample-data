@@ -1,0 +1,12 @@
+# Generator environment
+_generator/.venv/
+_generator/__pycache__/
+_generator/*.pyc
+
+# macOS
+.DS_Store
+
+# Editor files
+*.swp
+*.swo
+*~

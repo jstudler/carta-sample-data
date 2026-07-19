@@ -1,0 +1,23 @@
+---
+title: Multi-Sensor Calibration Session
+date: 2025-06-12
+topic: sensor-integration
+category: experiment
+type: normal
+width: 2
+sidecars:
+  - filename: sensor-integration_2025-06-12--150000.jpg
+    kind: picture
+    description: LED dot grid used for calibration reference
+  - filename: sensor-integration_2025-06-12--calibration-tone.mp3
+    kind: audio
+    description: Calibration tone sequence used for microphone testing
+---
+<p>Ran a full calibration session in the studio today, simulating gallery conditions as closely as possible. Key findings:</p>
+<ul>
+  <li>The proximity sensor needs to be recalibrated for each installation because reflective surfaces (polished floors, glass walls) create false readings.</li>
+  <li>Temperature sensors near LED arrays read 2-3°C higher than ambient due to heat from the LEDs themselves. Need to either shield the sensor or compensate in software.</li>
+  <li>The microphone AGC (automatic gain control) causes problems — in a quiet gallery, the gain ramps up until the ventilation hum dominates. Switched to manual gain with a calibration routine that samples the room for 60 seconds on startup.</li>
+</ul>
+<p>Also discovered that The <a href="https://en.wikipedia.org/wiki/I%C2%B2C">I2C bus</a> occasionally hangs when the proximity sensor is at maximum range. Added a <a href="https://en.wikipedia.org/wiki/Watchdog_timer">watchdog timer</a> that resets the bus after 500ms of silence. This is the kind of robustness issue that only surfaces during extended testing.</p>
+<p>Discussed the calibration challenges with Dr. Nils Erhardt at the university's embedded systems lab. He suggested using a <a href="https://en.wikipedia.org/wiki/Kalman_filter">Kalman filter</a> for the proximity channel, which could handle the reflective surface issue more elegantly. Worth exploring.</p>
